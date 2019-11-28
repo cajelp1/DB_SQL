@@ -191,3 +191,7 @@ FROM dual;
 SELECT NEXT_DAY(SYSDATE, 1) --오늘 날짜(11/25)이후 등장하는 첫 토요일
 FROM dual;
 
+
+
+
+
