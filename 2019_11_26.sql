@@ -2,6 +2,10 @@
 
 
 
+-- ROUND, TRUNC
+-- MONTHS BETWEEN, ADD_MONTHS, NEXT_DAY
+-- LAST DAY : 해당 날짜가 속한 월의 마지막 일자 (DATE)
+
 
 
 
@@ -37,6 +41,7 @@ SELECT TO_CHAR(
        TO_CHAR(SYSDATE, 'YYYY/MM/DD'), 'YYYY/MM/DD'), 'YYYY-MM-DD HH24:MI:SS')
 FROM DUAL;
 
+
 -------------------------------- 복습 겸 연습
 SELECT LENGTH('*')
 FROM DUAL;
@@ -62,7 +67,7 @@ SELECT *
 FROM TABLE(dbms_xplan.display);
 -- 자식부터 읽는다. 음.. 무슨 소리지이
 Plan hash value: 3956160932
- 
+
 --------------------------------------------------------------------------
 | Id  | Operation         | Name | Rows  | Bytes | Cost (%CPU)| Time     |
 --------------------------------------------------------------------------
@@ -254,6 +259,23 @@ SELECT empno, ename
 FROM emp;
 
 
+SELECT empno, ename 
+      ,CASE
+            WHEN deptno=10 THEN 'ACCOUNTING'
+            WHEN deptno=20 THEN 'RESEARCH'
+            WHEN deptno=30 THEN 'SALES'
+            WHEN deptno=40 THEN 'OPERATIONS'
+            ELSE 'DDIT'
+      END DNAME 
+FROM emp;
+
+SELECT empno, ename, hiredate
+      ,CASE
+            WHEN MOD(TO_NUMBER(TO_CHAR(hiredate,'yy')),2)=0 
+            THEN '건강검진 비대상자'
+            ELSE '건강검진 대상자'
+      END contact_to_doctor
+FROM emp;
 
 
 
