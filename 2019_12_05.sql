@@ -182,7 +182,8 @@ UNION
 SELECT empno, ename
 FROM emp
 WHERE job='CLERK'
-ORDER BY 2; -- 왜 컬럼명을 기재하면 오더바이가 안 먹히지??
+ORDER BY ename; -- 왜 컬럼명을 기재하면 오더바이가 안 먹히지??
+-- ??? 왜 껐다 키니까 먹히는거지?????
 
 
 -- OUTER JOIN과 집합

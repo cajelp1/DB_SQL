@@ -33,8 +33,9 @@ WHERE a.cid = customer.cid;
 
 select *
 from product left outer join cycle 
-    on (product.pid = cycle.pid and cid =1); 
-        -- 이 조건을 어디에 넣느냐에 따라 다르네... 무슨 차이지????
+    on (product.pid = cycle.pid and cid=1)
+    ;
+
 
 
 
@@ -77,11 +78,12 @@ right outer JOIN
 FROM
     (SELECT sido, sigungu, round(sal/people,1) 인당근로소득
     FROM tax
-    ORDER BY 인당근로소득 DESC) d) F
+    ORDER BY 인당근로소득 DESC, sido) d) F
 ON(f.rank = e.rank)
+ORDER BY f.rank
 ;
 
-
+---우웨ㅔㅔㅔㅔㄱ
 
 
 

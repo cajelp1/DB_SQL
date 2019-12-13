@@ -158,7 +158,10 @@ FROM customer join
 ORDER BY pid DESC, day DESC;
 
 
-
-
+---- 김경운씨 카테션 조인. 크로스 조인
+SELECT p.pid pid ,p.PNM pnm,NVL(c.cid,1) cid ,cu.CNM CNM,NVL(c.day,0) day ,NVL(c.cnt,0) cnt
+FROM     CUSTOMER cu,CYCLE c RIGHT OUTER JOIN PRODUCT p
+ON  (c.PID=p.PID AND c.CID=1)
+WHERE cu.CNM='brown';
 
 

@@ -29,14 +29,6 @@ CREATE SYNONYM fastfood FOR PC20.fastfood;
 -- 만약 synonym 이름이 다른 테이블이랑 겹치면?
 -- name is already used by an existing object
 
-SELECT * FROM emp WHERE empno=7788;
-SELECT * FROM emp WHERE empno=7869; --둘은 다른 쿼리로 데이터에 저장됨
-SELECT * FROM emp WHERE empno=:empno; --이러면 같은 쿼리로 저장한다
--- 운영은 운영, 개발은 개발. 개발은 편하게 해도 된다
--- 하지만 개발할 때 쓰던 쿼리가 운영으로 오면 안 좋을 수 있음
-
-
--- multiple insert
 
 
 

@@ -111,7 +111,7 @@ GRANT CREATE VIEW TO PC20;
 -- 위의 v_emp 생성쿼리 다시 실행
 
 
--- view로 데잍터 조회
+-- view로 데이터 조회
 SELECT *
 FROM emp;
 
