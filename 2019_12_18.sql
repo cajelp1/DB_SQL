@@ -3,14 +3,16 @@
 
 -- 12.18일까지 과제 (박종민씨)
 
+-- 아항... -를 +로 바꿔보니까 좀 알겠음...
+-- 해당 날짜를 전부 그 날의 첫일요일 첫월요일.. 이런 식으로 바꿔넣은거.
 SELECT
-    MAX(NVL(DECODE(d, 1, dt), dt - d + 2)) 일, --아니 널이면 dt가 없는거 아닌가...???만약 디코드가 없다면 어떻게나오지?
-    MAX(NVL(DECODE(d, 2, dt), dt - d + 2)) 월, 
-    MAX(NVL(DECODE(d, 3, dt), dt - d + 3)) 화,
-    MAX(NVL(DECODE(d, 4, dt), dt - d + 4)) 수, 
-    MAX(NVL(DECODE(d, 5, dt), dt - d + 5)) 목, 
-    MAX(NVL(DECODE(d, 6, dt), dt - d + 6)) 금, 
-    MAX(NVL(DECODE(d, 7, dt), dt - d + 7)) 토
+    MAX(NVL(DECODE(d, 1, dt), dt - (d - 1))) 일, --아니 널이면 dt가 없는거 아닌가...???만약 디코드가 없다면 어떻게나오지?
+    MAX(NVL(DECODE(d, 2, dt), dt - (d - 2))) 월, 
+    MAX(NVL(DECODE(d, 3, dt), dt - (d - 3))) 화,
+    MAX(NVL(DECODE(d, 4, dt), dt - (d - 4))) 수, 
+    MAX(NVL(DECODE(d, 5, dt), dt - (d - 5))) 목, 
+    MAX(NVL(DECODE(d, 6, dt), dt - (d - 6))) 금, 
+    MAX(NVL(DECODE(d, 7, dt), dt - (d - 7))) 토
 FROM
     (SELECT 
             TO_DATE(:yyyymm, 'YYYYMM') + (LEVEL - 1) dt,
@@ -189,12 +191,12 @@ CONNECT BY p_deptcd = PRIOR deptcd;
 -- SYS_CONNECT_BY_PATH(col, 구분자) : 최상위 row에서 현재 로우까지
 --                          col값을 구분자로 연결해준 문자열
 -- CONNECT_BY_ISLEAF : 해당 ROW가 마지막 노드인지(leaf node)
---      인자가 없다.
+--      인자가 없다. 걍 키워드만 쓰면 됨
 --      leaf node : 1, node, : 0
 SELECT deptcd, LPAD(' ', 4*(LEVEL-1))||deptnm
        ,CONNECT_BY_ROOT(deptnm) c_root
        ,LTRIM(SYS_CONNECT_BY_PATH(deptnm, '-'), '-') --LTRIM을 관용구처럼 같이 쓴다
-       ,CONNECT_BY_ISLEAF;
+       ,CONNECT_BY_ISLEAF
 FROM dept_h
 START WITH deptcd = 'dept0' --AND deptcd = 'dept0_00' 시작을 두개로 잡으면 안되는구마
 CONNECT BY p_deptcd = PRIOR deptcd;
@@ -226,17 +228,20 @@ CONNECT BY parent_seq = PRIOR seq
 ORDER SIBLINGS BY seq DESC;
 
 
--- h_9
+-- h_9 와! 추가 안햇서!
 
-SELECT seq, connect_by_root(seq) a,
+SELECT seq, parent_seq,
        LPAD(' ',3*(LEVEL-1))||title title
 FROM board_test
 START WITH parent_seq IS NULL
 CONNECT BY parent_seq = PRIOR seq
-ORDER BY a desc, seq;
+ORDER SIBLINGS BY NVL(parent_seq, seq) DESC;
+
+SELECT *
+FROM board;
 
 
--- 컬럼 추가 안하고는 어떻게하지?
+-- 처음 했던 답...
 
 SELECT seq, LPAD(' ',3*(LEVEL-1))||title title
 FROM board_test
