@@ -27,7 +27,7 @@ exec UPDATEdept_test(99,'ddit_m', 'daejeon');
 
 
 DECLARE     
---DEPT 테이블의 ROW 정보를 담을  수 있는 변수선언
+--DEPT 테이블의 ROW 정보를 담을 수 있는 변수선언
     dept_row dept%ROWTYPE;
 BEGIN
     SELECT *
@@ -37,7 +37,7 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE ( dept_row.dname||'++'||dept_row.loc);
 END;
 /
--- 아 왜 또 아먹혀...
+-- 아 왜 또 안먹혀...
 
 
 SET SERVEROUTPUT on;
@@ -82,7 +82,11 @@ END;
 -- 을 주로 사용한다.
 -- arr(1).name = 'brown'
 -- arr('person').name = 'brown'
+--그렇기 때문에 index에 대한 타입을 명시한다
+--일반적으로 array(list) 형태인 경우라면 INDEX BY BINARY_INTEGER를 주로 사용한다
 
+-- dept 테이블의 row를 여러건 저장할 수 있는 dept_tab TABLE TYPE 을
+-- 선언하여 SELECT * FROM dept;의 결과(여러건)를 변수에 담는다
 DECLARE
     TYPE dept_tab IS TABLE OF dept%ROWTYPE INDEX BY binary_integer;
     v_dept dept_tab;
@@ -92,8 +96,6 @@ BEGIN
     SELECT *
     BULK COLLECT INTO v_dept
     FROM dept;
-    --CURSOR
-    
     
     FOR i IN 1 .. v_dept.count LOOP --자바에서 for문과 같은 역할
         -- arr[1] --> arr(1)
